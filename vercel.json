@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "legal-advisor-ai-frontend",
+  "outputDirectory": "src/main/resources/static",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}

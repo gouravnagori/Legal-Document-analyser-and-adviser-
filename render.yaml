@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: legal-advisor-ai
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+      - key: PORT
+        value: 8080
