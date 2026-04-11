@@ -8,9 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => document.querySelectorAll(sel);
 
-    // Auth Modal
-    const authModal = $('#auth-modal');
-    const authModalClose = $('#auth-modal-close');
+    // Auth Page
+    const authPage = $('#auth-page');
+    const appMain = $('#app-main');
     const authTitle = $('#auth-title');
     const authSubtitle = $('#auth-subtitle');
     const signinForm = $('#signin-form');
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Nav
     const navLinks = $$('.nav-link');
     const pages = $$('.page');
-    const signinBtn = $('#signin-btn');
     const userMenu = $('#user-menu');
     const userAvatar = $('#user-avatar');
     const userDropdown = $('#user-dropdown');
@@ -74,12 +73,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const langToggle = $('#lang-toggle');
 
     // History
-    const historyLoginPrompt = $('#history-login-prompt');
     const historyEmpty = $('#history-empty');
     const historyList = $('#history-list');
     const historyDetail = $('#history-detail');
     const historyDetailContent = $('#history-detail-content');
     const backToHistoryBtn = $('#back-to-history-btn');
+    const heroGreeting = $('#hero-greeting');
 
     let currentMode = 'pdf';
     let selectedPdf = null;
@@ -104,6 +103,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ============================================================
+    //  AUTH — Show/Hide Pages
+    // ============================================================
+    function showAuthPage() {
+        authPage.classList.remove('hidden');
+        appMain.classList.add('hidden');
+    }
+
+    function showAppPage() {
+        authPage.classList.add('hidden');
+        appMain.classList.remove('hidden');
+        // Set greeting
+        if (currentUser && heroGreeting) {
+            heroGreeting.textContent = `Welcome back, ${currentUser.name} 👋`;
+        }
+        // Set user menu
+        userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+        dropdownName.textContent = currentUser.name;
+        dropdownEmail.textContent = currentUser.email;
+    }
+
+    // ============================================================
     //  AUTH — Check Session on Load
     // ============================================================
     async function checkAuth() {
@@ -112,68 +132,52 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await resp.json();
             if (data.authenticated) {
                 currentUser = { name: data.name, email: data.email };
-                showLoggedInUI();
+                showAppPage();
             } else {
                 currentUser = null;
-                showLoggedOutUI();
+                showAuthPage();
             }
         } catch {
             currentUser = null;
-            showLoggedOutUI();
+            showAuthPage();
         }
-    }
-
-    function showLoggedInUI() {
-        signinBtn.classList.add('hidden');
-        userMenu.classList.remove('hidden');
-        userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
-        dropdownName.textContent = currentUser.name;
-        dropdownEmail.textContent = currentUser.email;
-    }
-
-    function showLoggedOutUI() {
-        signinBtn.classList.remove('hidden');
-        userMenu.classList.add('hidden');
     }
 
     checkAuth();
 
     // ============================================================
-    //  AUTH MODAL
+    //  AUTH — Switch Between Sign In / Sign Up
     // ============================================================
-    function openAuthModal(mode = 'signin') {
-        authModal.classList.remove('hidden');
+    function showSignInForm() {
+        signinForm.classList.remove('hidden');
+        signupForm.classList.add('hidden');
+        authTitle.textContent = 'Welcome back';
+        authSubtitle.textContent = 'Sign in to continue analyzing documents';
         signinError.classList.add('hidden');
         signupError.classList.add('hidden');
         signupSuccess.classList.add('hidden');
-        if (mode === 'signup') {
-            signinForm.classList.add('hidden');
-            signupForm.classList.remove('hidden');
-            authTitle.textContent = 'Create Account';
-            authSubtitle.textContent = 'Start analyzing legal documents';
-        } else {
-            signupForm.classList.add('hidden');
-            signinForm.classList.remove('hidden');
-            authTitle.textContent = 'Sign In';
-            authSubtitle.textContent = 'Access your legal document history';
-        }
     }
 
-    function closeAuthModal() {
-        authModal.classList.add('hidden');
+    function showSignUpForm() {
+        signupForm.classList.remove('hidden');
+        signinForm.classList.add('hidden');
+        authTitle.textContent = 'Create your account';
+        authSubtitle.textContent = 'Start analyzing legal documents for free';
+        signinError.classList.add('hidden');
+        signupError.classList.add('hidden');
+        signupSuccess.classList.add('hidden');
     }
 
-    signinBtn.addEventListener('click', () => openAuthModal('signin'));
-    authModalClose.addEventListener('click', closeAuthModal);
-    authModal.addEventListener('click', (e) => { if (e.target === authModal) closeAuthModal(); });
-    showSignup.addEventListener('click', (e) => { e.preventDefault(); openAuthModal('signup'); });
-    showSignin.addEventListener('click', (e) => { e.preventDefault(); openAuthModal('signin'); });
+    showSignup.addEventListener('click', (e) => { e.preventDefault(); showSignUpForm(); });
+    showSignin.addEventListener('click', (e) => { e.preventDefault(); showSignInForm(); });
 
     // Sign Up
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         signupError.classList.add('hidden');
         signupSuccess.classList.add('hidden');
+        const btn = $('#signup-submit-btn');
+        btn.disabled = true;
 
         const name = $('#signup-name').value.trim();
         const email = $('#signup-email').value.trim();
@@ -189,22 +193,27 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!resp.ok) {
                 signupError.textContent = data.error || 'Sign up failed.';
                 signupError.classList.remove('hidden');
+                btn.disabled = false;
                 return;
             }
-            signupSuccess.textContent = data.message || 'Account created! Please sign in.';
+            signupSuccess.textContent = '✅ ' + (data.message || 'Account created! Signing you in...');
             signupSuccess.classList.remove('hidden');
             signupForm.reset();
-            setTimeout(() => openAuthModal('signin'), 1500);
+            // Auto-sign in after signup
+            setTimeout(() => showSignInForm(), 1500);
         } catch {
             signupError.textContent = 'Network error. Please try again.';
             signupError.classList.remove('hidden');
         }
+        btn.disabled = false;
     });
 
     // Sign In
     signinForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         signinError.classList.add('hidden');
+        const btn = $('#signin-submit-btn');
+        btn.disabled = true;
 
         const email = $('#signin-email').value.trim();
         const password = $('#signin-password').value;
@@ -220,16 +229,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!resp.ok) {
                 signinError.textContent = data.error || 'Sign in failed.';
                 signinError.classList.remove('hidden');
+                btn.disabled = false;
                 return;
             }
             currentUser = { name: data.name, email: data.email };
-            showLoggedInUI();
-            closeAuthModal();
             signinForm.reset();
+            showAppPage();
         } catch {
             signinError.textContent = 'Network error. Please try again.';
             signinError.classList.remove('hidden');
         }
+        btn.disabled = false;
     });
 
     // User Dropdown Toggle
@@ -245,9 +255,8 @@ document.addEventListener('DOMContentLoaded', () => {
             await fetch(API_BASE + '/api/auth/logout', { method: 'POST', credentials: 'same-origin' });
         } catch {}
         currentUser = null;
-        showLoggedOutUI();
         userDropdown.classList.add('hidden');
-        navigateTo('analyze');
+        showAuthPage();
     });
 
     // ============================================================
@@ -380,12 +389,6 @@ document.addEventListener('DOMContentLoaded', () => {
     analyzeBtn.addEventListener('click', async () => {
         hideError();
 
-        // Check if logged in
-        if (!currentUser) {
-            openAuthModal('signin');
-            return;
-        }
-
         let url, options;
         if (currentMode === 'text') {
             const text = textInput.value.trim();
@@ -421,6 +424,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const resp = await fetch(url, options);
+
+            // If 401, session expired — go back to auth
+            if (resp.status === 401) {
+                clearInterval(stepInterval);
+                currentUser = null;
+                showAuthPage();
+                return;
+            }
+
             const data = await resp.json();
             clearInterval(stepInterval);
             steps.forEach(s => { s.classList.remove('active'); s.classList.add('done'); });
@@ -549,17 +561,12 @@ ${getText(resLegalAid)}`.trim();
         historyDetail.classList.add('hidden');
         historyList.innerHTML = '';
         historyEmpty.classList.add('hidden');
-        historyLoginPrompt.classList.add('hidden');
-
-        if (!currentUser) {
-            historyLoginPrompt.classList.remove('hidden');
-            return;
-        }
 
         try {
             const resp = await fetch(API_BASE + '/api/history', { credentials: 'same-origin' });
             if (resp.status === 401) {
-                historyLoginPrompt.classList.remove('hidden');
+                currentUser = null;
+                showAuthPage();
                 return;
             }
             const records = await resp.json();
@@ -595,11 +602,9 @@ ${getText(resLegalAid)}`.trim();
                     </div>
                 `;
 
-                // Click to view detail
                 card.querySelector('.history-card-body').addEventListener('click', () => showHistoryDetail(record));
                 card.querySelector('.history-card-icon').addEventListener('click', () => showHistoryDetail(record));
 
-                // Delete
                 card.querySelector('.history-delete-btn').addEventListener('click', async (e) => {
                     e.stopPropagation();
                     if (!confirm('Delete this analysis?')) return;

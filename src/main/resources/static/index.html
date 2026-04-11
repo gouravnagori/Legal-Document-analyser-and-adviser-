@@ -16,63 +16,118 @@
         <div class="orb orb-3"></div>
     </div>
 
-    <!-- ====== AUTH MODAL ====== -->
-    <div class="modal-overlay hidden" id="auth-modal">
-        <div class="modal glass-card">
-            <button class="modal-close" id="auth-modal-close">&times;</button>
-            <div class="modal-header">
-                <div class="modal-logo">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                    </svg>
+    <!-- ============================================ -->
+    <!--  FULL-PAGE AUTH SCREEN (shown when logged out) -->
+    <!-- ============================================ -->
+    <div id="auth-page" class="auth-page">
+        <div class="auth-page-container">
+            <!-- Left Side — Branding -->
+            <div class="auth-branding">
+                <div class="auth-brand-content">
+                    <div class="logo" style="margin-bottom:1.5rem;">
+                        <div class="logo-icon">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                            </svg>
+                        </div>
+                        <span>LegalAdvisor<span class="accent">AI</span></span>
+                    </div>
+                    <h1 class="auth-brand-title">Samjho Apna <span class="gradient-text">Legal Document</span></h1>
+                    <p class="auth-brand-desc">AI-powered legal document analysis for Indian citizens. Upload an FIR, court summons, contract, or any legal document — decoded into plain English & Hindi.</p>
+                    
+                    <div class="auth-features">
+                        <div class="auth-feature">
+                            <div class="auth-feature-icon">📄</div>
+                            <div>
+                                <strong>Upload PDF, Image, or Text</strong>
+                                <small>FIR, summons, contracts, agreements</small>
+                            </div>
+                        </div>
+                        <div class="auth-feature">
+                            <div class="auth-feature-icon">⚖️</div>
+                            <div>
+                                <strong>IPC/BNS Sections Explained</strong>
+                                <small>Legal jargon decoded in simple language</small>
+                            </div>
+                        </div>
+                        <div class="auth-feature">
+                            <div class="auth-feature-icon">🇮🇳</div>
+                            <div>
+                                <strong>English + Hindi Results</strong>
+                                <small>Complete bilingual analysis</small>
+                            </div>
+                        </div>
+                        <div class="auth-feature">
+                            <div class="auth-feature-icon">🛡️</div>
+                            <div>
+                                <strong>Know Your Rights</strong>
+                                <small>Constitutional rights & next steps</small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h2 id="auth-title">Sign In</h2>
-                <p id="auth-subtitle">Access your legal document history</p>
+                <p class="auth-brand-footer">🇮🇳 Made for Indian Citizens · NALSA Helpline: <strong>15100</strong></p>
             </div>
 
-            <!-- Sign In Form -->
-            <form id="signin-form" class="auth-form">
-                <div class="form-group">
-                    <label for="signin-email">Email</label>
-                    <input type="email" id="signin-email" placeholder="you@example.com" required autocomplete="email">
-                </div>
-                <div class="form-group">
-                    <label for="signin-password">Password</label>
-                    <input type="password" id="signin-password" placeholder="••••••••" required autocomplete="current-password">
-                </div>
-                <div id="signin-error" class="form-error hidden"></div>
-                <button type="submit" class="primary-btn auth-submit-btn">
-                    <span>Sign In</span>
-                </button>
-                <p class="auth-switch">Don't have an account? <a href="#" id="show-signup">Create one</a></p>
-            </form>
+            <!-- Right Side — Auth Forms -->
+            <div class="auth-form-panel">
+                <div class="auth-form-card glass-card">
+                    <div class="auth-form-header">
+                        <h2 id="auth-title">Welcome back</h2>
+                        <p id="auth-subtitle">Sign in to continue analyzing documents</p>
+                    </div>
 
-            <!-- Sign Up Form -->
-            <form id="signup-form" class="auth-form hidden">
-                <div class="form-group">
-                    <label for="signup-name">Full Name</label>
-                    <input type="text" id="signup-name" placeholder="Your name" required autocomplete="name">
+                    <!-- Sign In Form -->
+                    <form id="signin-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="signin-email">Email Address</label>
+                            <input type="email" id="signin-email" placeholder="you@example.com" required autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="signin-password">Password</label>
+                            <input type="password" id="signin-password" placeholder="Enter your password" required autocomplete="current-password">
+                        </div>
+                        <div id="signin-error" class="form-error hidden"></div>
+                        <button type="submit" class="primary-btn auth-submit-btn" id="signin-submit-btn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                            <span>Sign In</span>
+                        </button>
+                        <p class="auth-switch">Don't have an account? <a href="#" id="show-signup">Create one free</a></p>
+                    </form>
+
+                    <!-- Sign Up Form -->
+                    <form id="signup-form" class="auth-form hidden">
+                        <div class="form-group">
+                            <label for="signup-name">Full Name</label>
+                            <input type="text" id="signup-name" placeholder="Gourav Nagori" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email Address</label>
+                            <input type="email" id="signup-email" placeholder="you@example.com" required autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password">
+                        </div>
+                        <div id="signup-error" class="form-error hidden"></div>
+                        <div id="signup-success" class="form-success hidden"></div>
+                        <button type="submit" class="primary-btn auth-submit-btn" id="signup-submit-btn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                            <span>Create Account</span>
+                        </button>
+                        <p class="auth-switch">Already have an account? <a href="#" id="show-signin">Sign in</a></p>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="signup-email">Email</label>
-                    <input type="email" id="signup-email" placeholder="you@example.com" required autocomplete="email">
-                </div>
-                <div class="form-group">
-                    <label for="signup-password">Password</label>
-                    <input type="password" id="signup-password" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password">
-                </div>
-                <div id="signup-error" class="form-error hidden"></div>
-                <div id="signup-success" class="form-success hidden"></div>
-                <button type="submit" class="primary-btn auth-submit-btn">
-                    <span>Create Account</span>
-                </button>
-                <p class="auth-switch">Already have an account? <a href="#" id="show-signin">Sign in</a></p>
-            </form>
+                <p class="auth-form-footer">By signing in, you agree that this is for educational use only.<br>Not a substitute for professional legal advice.</p>
+            </div>
         </div>
     </div>
 
-    <div class="app-container">
+    <!-- ============================================ -->
+    <!--  MAIN APP (hidden until logged in)           -->
+    <!-- ============================================ -->
+    <div class="app-container hidden" id="app-main">
         <!-- ====== TOP NAVBAR ====== -->
         <nav id="main-nav">
             <div class="nav-left">
@@ -104,11 +159,8 @@
                     <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                 </button>
 
-                <!-- Logged out -->
-                <button class="signin-btn" id="signin-btn">Sign In</button>
-
-                <!-- Logged in -->
-                <div class="user-menu hidden" id="user-menu">
+                <!-- User Menu (always shown in app) -->
+                <div class="user-menu" id="user-menu">
                     <div class="user-avatar" id="user-avatar">G</div>
                     <div class="user-dropdown hidden" id="user-dropdown">
                         <div class="dropdown-header">
@@ -129,8 +181,8 @@
         <main id="page-analyze" class="page active">
             <!-- Compact Hero -->
             <div class="hero-compact">
-                <div class="hero-label">AI-Powered Legal Intelligence</div>
-                <h1>Samjho Apna <span class="gradient-text">Legal Document</span></h1>
+                <div class="hero-greeting" id="hero-greeting">Welcome back 👋</div>
+                <h1>Analyze Your <span class="gradient-text">Legal Document</span></h1>
                 <p class="hero-sub">Upload an FIR, court summons, contract, or any legal document — decoded into plain English & Hindi.</p>
             </div>
 
@@ -258,114 +310,54 @@
 
                 <!-- Collapsible Result Cards -->
                 <div class="result-card glass-card summary-variant" data-section="summary">
-                    <button class="card-header-btn">
-                        <div class="card-icon-row">
-                            <div class="card-badge summary-badge">📝</div>
-                            <h3>Plain English Summary</h3>
-                        </div>
-                        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
+                    <button class="card-header-btn"><div class="card-icon-row"><div class="card-badge summary-badge">📝</div><h3>Plain English Summary</h3></div><svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
                     <div class="card-content expanded" id="res-summary"></div>
                 </div>
 
                 <div class="result-card glass-card hindi-variant" data-section="hindi">
-                    <button class="card-header-btn">
-                        <div class="card-icon-row">
-                            <div class="card-badge hindi-badge">🇮🇳</div>
-                            <h3>हिंदी सारांश (Hindi Summary)</h3>
-                        </div>
-                        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
+                    <button class="card-header-btn"><div class="card-icon-row"><div class="card-badge hindi-badge">🇮🇳</div><h3>हिंदी सारांश</h3></div><svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
                     <div class="card-content expanded hindi-text" id="res-hindi"></div>
                 </div>
 
                 <div class="results-grid">
                     <div class="result-card glass-card clauses-variant" data-section="clauses">
-                        <button class="card-header-btn">
-                            <div class="card-icon-row">
-                                <div class="card-badge clauses-badge">📎</div>
-                                <h3>Key Clauses</h3>
-                            </div>
-                            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                        </button>
+                        <button class="card-header-btn"><div class="card-icon-row"><div class="card-badge clauses-badge">📎</div><h3>Key Clauses</h3></div><svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
                         <div class="card-content expanded" id="res-clauses"></div>
                     </div>
                     <div class="result-card glass-card sections-variant" data-section="sections">
-                        <button class="card-header-btn">
-                            <div class="card-icon-row">
-                                <div class="card-badge sections-badge">⚖️</div>
-                                <h3>Legal Sections</h3>
-                            </div>
-                            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                        </button>
+                        <button class="card-header-btn"><div class="card-icon-row"><div class="card-badge sections-badge">⚖️</div><h3>Legal Sections</h3></div><svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
                         <div class="card-content expanded" id="res-sections"></div>
                     </div>
                 </div>
 
                 <div class="result-card glass-card risks-variant" data-section="risks">
-                    <button class="card-header-btn">
-                        <div class="card-icon-row">
-                            <div class="card-badge risks-badge">🚨</div>
-                            <h3>Risks & Red Flags</h3>
-                        </div>
-                        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
+                    <button class="card-header-btn"><div class="card-icon-row"><div class="card-badge risks-badge">🚨</div><h3>Risks & Red Flags</h3></div><svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
                     <div class="card-content expanded" id="res-risks"></div>
                 </div>
 
                 <div class="results-grid">
                     <div class="result-card glass-card rights-variant" data-section="rights">
-                        <button class="card-header-btn">
-                            <div class="card-icon-row">
-                                <div class="card-badge rights-badge">🛡️</div>
-                                <h3>Your Rights</h3>
-                            </div>
-                            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                        </button>
+                        <button class="card-header-btn"><div class="card-icon-row"><div class="card-badge rights-badge">🛡️</div><h3>Your Rights</h3></div><svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
                         <div class="card-content expanded" id="res-rights"></div>
                     </div>
                     <div class="result-card glass-card deadlines-variant" data-section="deadlines">
-                        <button class="card-header-btn">
-                            <div class="card-icon-row">
-                                <div class="card-badge deadlines-badge">⏰</div>
-                                <h3>Deadlines</h3>
-                            </div>
-                            <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                        </button>
+                        <button class="card-header-btn"><div class="card-icon-row"><div class="card-badge deadlines-badge">⏰</div><h3>Deadlines</h3></div><svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
                         <div class="card-content expanded" id="res-deadlines"></div>
                     </div>
                 </div>
 
                 <div class="result-card glass-card steps-variant" data-section="steps">
-                    <button class="card-header-btn">
-                        <div class="card-icon-row">
-                            <div class="card-badge steps-badge">📋</div>
-                            <h3>What To Do Next</h3>
-                        </div>
-                        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
+                    <button class="card-header-btn"><div class="card-icon-row"><div class="card-badge steps-badge">📋</div><h3>What To Do Next</h3></div><svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
                     <div class="card-content expanded" id="res-nextsteps"></div>
                 </div>
 
                 <div class="result-card glass-card advice-variant" data-section="advice">
-                    <button class="card-header-btn">
-                        <div class="card-icon-row">
-                            <div class="card-badge advice-badge">💡</div>
-                            <h3>Practical Advice</h3>
-                        </div>
-                        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
+                    <button class="card-header-btn"><div class="card-icon-row"><div class="card-badge advice-badge">💡</div><h3>Practical Advice</h3></div><svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
                     <div class="card-content expanded" id="res-advice"></div>
                 </div>
 
                 <div class="result-card glass-card legalaid-variant" data-section="legalaid">
-                    <button class="card-header-btn">
-                        <div class="card-icon-row">
-                            <div class="card-badge legalaid-badge">📞</div>
-                            <h3>Legal Help Resources</h3>
-                        </div>
-                        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
+                    <button class="card-header-btn"><div class="card-icon-row"><div class="card-badge legalaid-badge">📞</div><h3>Legal Help Resources</h3></div><svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
                     <div class="card-content expanded" id="res-legalaid"></div>
                 </div>
 
@@ -381,13 +373,6 @@
             <div class="page-header">
                 <h1>📂 Your Analysis History</h1>
                 <p>Documents are automatically saved for 15 days</p>
-            </div>
-
-            <div id="history-login-prompt" class="glass-card empty-state hidden">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <h3>Sign in to view your history</h3>
-                <p>Your analyzed documents will be saved for 15 days after signing in.</p>
-                <button class="primary-btn" style="max-width:240px;margin:0 auto" onclick="document.getElementById('signin-btn').click()">Sign In</button>
             </div>
 
             <div id="history-empty" class="glass-card empty-state hidden">
