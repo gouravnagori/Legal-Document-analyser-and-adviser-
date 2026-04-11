@@ -1,6 +1,7 @@
 package com.legal.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
@@ -9,8 +10,15 @@ public class AnalysisRecord {
 
     @Id
     private String id;
+
+    @Indexed
+    private String userId; // Links record to authenticated user
+
     private String inputType; // "text", "pdf", "image"
     private String fileName;
+
+    // TTL index: MongoDB will auto-delete documents 15 days after analyzedAt
+    @Indexed(expireAfter = "15d")
     private LocalDateTime analyzedAt;
 
     // All analysis fields
@@ -53,6 +61,8 @@ public class AnalysisRecord {
     // --- Getters and Setters ---
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
     public String getInputType() { return inputType; }
     public void setInputType(String inputType) { this.inputType = inputType; }
     public String getFileName() { return fileName; }
