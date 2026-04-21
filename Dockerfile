@@ -12,9 +12,9 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
-# Render assigns a PORT environment variable
+# Railway/Render assigns a PORT environment variable
 ENV PORT=8080
-EXPOSE ${PORT}
+EXPOSE 8080
 
-# Start the Spring Boot application
-ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=${PORT}"]
+# Start the Spring Boot application (shell form for variable expansion)
+CMD java -jar app.jar --server.port=${PORT}
