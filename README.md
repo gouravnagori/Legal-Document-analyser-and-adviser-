@@ -2,7 +2,7 @@
 
 > AI-powered legal document analyzer that helps Indian citizens understand complex legal documents in plain English & Hindi.
 
-### 🌐 [**Try It Live → legal-document-analyser-and-adviser.onrender.com**](https://legal-document-analyser-and-adviser.onrender.com/)
+### 🌐 [**Try It Live → https://legal-document-analyser-and-adviser-otpa.onrender.com**](https://legal-document-analyser-and-adviser.onrender.com/)
 
 ![Java](https://img.shields.io/badge/Java-21-orange?logo=openjdk)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.4-green?logo=springboot)
